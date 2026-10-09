@@ -373,8 +373,7 @@ static struct qfx5210_64x_fan_data *qfx5210_64x_fan_update_device(struct device 
     return data;
 }
 
-static int qfx5210_64x_fan_probe(struct i2c_client *client,
-            const struct i2c_device_id *dev_id)
+static int qfx5210_64x_fan_probe(struct i2c_client *client)
 {
     struct qfx5210_64x_fan_data *data;
     int status;
@@ -422,13 +421,11 @@ exit:
     return status;
 }
 
-static int qfx5210_64x_fan_remove(struct i2c_client *client)
+static void qfx5210_64x_fan_remove(struct i2c_client *client)
 {
     struct qfx5210_64x_fan_data *data = i2c_get_clientdata(client);
     hwmon_device_unregister(data->hwmon_dev);
     sysfs_remove_group(&client->dev.kobj, &qfx5210_64x_fan_group);
-    
-    return 0;
 }
 
 /* Addresses to scan */

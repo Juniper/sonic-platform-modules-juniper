@@ -171,8 +171,7 @@ static const struct attribute_group jnx_psu_group = {
     .attrs = psu_attributes,
 };
 
-static int jnx_psu_probe(struct i2c_client *client,
-                         const struct i2c_device_id *dev_id)
+static int jnx_psu_probe(struct i2c_client *client)
 {
     struct psu_data *data;
     int status;
@@ -222,15 +221,13 @@ exit:
     return status;
 }
 
-static int jnx_psu_remove(struct i2c_client *client)
+static void jnx_psu_remove(struct i2c_client *client)
 {
     struct psu_data *data = i2c_get_clientdata(client);
 
     hwmon_device_unregister(data->hwmon_dev);
     sysfs_remove_group(&client->dev.kobj, &jnx_psu_group);
     kfree(data);
-
-    return 0;
 }
 
 enum {

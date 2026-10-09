@@ -563,12 +563,10 @@ static int jnx_refpga_tmc_probe(struct platform_device *pdev)
 	return 0;
 }
 
-static int jnx_refpga_tmc_remove(struct platform_device *pdev)
+static void jnx_refpga_tmc_remove(struct platform_device *pdev)
 {
 	jnx_refpga_led_remove(pdev);
 	sysfs_remove_group(&pdev->dev.kobj, &refpga_fan_attr_group);
-
-	return 0;
 }
 
 static struct platform_driver jnx_refpga_tmc_driver = {

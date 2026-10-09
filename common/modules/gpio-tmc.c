@@ -19,6 +19,7 @@
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/gpio.h>
+#include <linux/gpio/driver.h>
 #include <linux/errno.h>
 #include <linux/io.h>
 #include <linux/module.h>
@@ -622,7 +623,7 @@ static int tmc_gpio_probe(struct platform_device *pdev)
 
 	tmc_gpio_setup(chip, cell->id);
 
-	ret = gpiochip_add(&chip->gpio);
+	ret = gpiochip_add_data(&chip->gpio, chip);
 	if (ret) {
 		dev_err(dev,
 			"Failed to register TMC gpiochip : %d\n", ret);
@@ -636,13 +637,11 @@ static int tmc_gpio_probe(struct platform_device *pdev)
 	return 0;
 }
 
-static int tmc_gpio_remove(struct platform_device *pdev)
+static void tmc_gpio_remove(struct platform_device *pdev)
 {
 	struct tmc_gpio_chip *chip = platform_get_drvdata(pdev);
 
 	gpiochip_remove(&chip->gpio);
-
-	return 0;
 }
 
 static struct platform_driver tmc_gpio_driver = {

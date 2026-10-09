@@ -895,7 +895,7 @@ static int tmc_i2c_mux_init(struct i2c_adapter *adap)
 
 	tadap->muxc->priv = tadap;
 	for (chan = 0; chan < tadap->mux_channels; chan++) {
-		ret = i2c_mux_add_adapter(tadap->muxc, 0, chan, 0);
+		ret = i2c_mux_add_adapter(tadap->muxc, 0, chan);
 		if (ret) {
 			dev_err(&adap->dev, "Failed to add adapter %d\n", chan);
 			i2c_mux_del_adapters(tadap->muxc);
@@ -1077,7 +1077,7 @@ err_remove:
 	return err;
 }
 
-static int tmc_i2c_remove(struct platform_device *pdev)
+static void tmc_i2c_remove(struct platform_device *pdev)
 {
 	struct tmc_i2c_ctrl *tmc = platform_get_drvdata(pdev);
 	int i;
@@ -1087,8 +1087,6 @@ static int tmc_i2c_remove(struct platform_device *pdev)
 
 	for (i = 0; i < tmc->num_masters; i++)
 		tmc_i2c_cleanup_one(tmc->adap[i]);
-
-	return 0;
 }
 
 static struct platform_driver tmc_i2c_driver = {

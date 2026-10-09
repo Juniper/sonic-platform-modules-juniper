@@ -172,7 +172,7 @@ static int tmc_leds_probe(struct platform_device *pdev)
 	return 0;
 }
 
-static int tmc_leds_remove(struct platform_device *pdev)
+static void tmc_leds_remove(struct platform_device *pdev)
 {
 	struct tmc_led_data *ild = platform_get_drvdata(pdev);
 	int i;
@@ -187,8 +187,6 @@ static int tmc_leds_remove(struct platform_device *pdev)
 			devm_kfree(&pdev->dev, ild->leds);
 		devm_kfree(&pdev->dev, ild);
 	}
-
-	return 0;
 }
 
 static struct platform_driver jnx_tmc_leds_driver = {

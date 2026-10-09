@@ -157,9 +157,9 @@ static void qfx5210_cpld_power_off(void)
  */
 static void (*default_pm_power_off)(void);
 
-static int qfx5210_64x_psu_probe(struct i2c_client *client,
-            const struct i2c_device_id *dev_id)
+static int qfx5210_64x_psu_probe(struct i2c_client *client)
 {
+    const struct i2c_device_id *dev_id = i2c_client_get_device_id(client);
     struct qfx5210_64x_psu_data *data;
     int status;
 
@@ -207,15 +207,13 @@ exit:
     return status;
 }
 
-static int qfx5210_64x_psu_remove(struct i2c_client *client)
+static void qfx5210_64x_psu_remove(struct i2c_client *client)
 {
     struct qfx5210_64x_psu_data *data = i2c_get_clientdata(client);
 
     hwmon_device_unregister(data->hwmon_dev);
     sysfs_remove_group(&client->dev.kobj, &qfx5210_64x_psu_group);
     kfree(data);
-
-    return 0;
 }
 
 enum psu_index 

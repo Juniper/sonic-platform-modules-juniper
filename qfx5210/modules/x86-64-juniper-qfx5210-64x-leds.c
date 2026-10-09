@@ -381,15 +381,13 @@ static int qfx5210_64x_led_probe(struct platform_device *pdev)
 	return ret;
 }
 
-static int qfx5210_64x_led_remove(struct platform_device *pdev)
+static void qfx5210_64x_led_remove(struct platform_device *pdev)
 {
 	int i;
 
 	for (i = 0; i < ARRAY_SIZE(qfx5210_64x_leds); i++) {
 		led_classdev_unregister(&qfx5210_64x_leds[i]);
 	}
-
-	return 0;
 }
 
 static struct platform_driver qfx5210_64x_led_driver = {

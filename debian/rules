@@ -26,12 +26,14 @@ SERVICE_DIR := service
 CONF_DIR := conf
 
 %:
-	dh $@ --with systemd,python2,python3 --buildsystem=pybuild
+	dh $@ --with python3 --buildsystem=pybuild
 
 clean:
 	dh_testdir
 	dh_testroot
 	dh_clean
+
+build-arch build-indep: build
 
 build:
 	#make modules -C $(KERNEL_SRC)/build M=$(MODULE_SRC)
@@ -43,7 +45,7 @@ build:
 binary: binary-arch binary-indep
 	# Nothing to do
 
-binary-arch: 
+binary-arch: build
 	# Nothing to do
 
 #install: build
@@ -52,7 +54,7 @@ binary-arch:
 	#dh_clean -k 
 	#dh_installdirs
 
-binary-indep:
+binary-indep: build
 	dh_testdir
 	dh_installdirs
 
@@ -82,4 +84,4 @@ binary-indep:
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb
-.PHONY: build binary binary-arch binary-indep clean
+.PHONY: build build-arch build-indep binary binary-arch binary-indep clean

@@ -129,7 +129,7 @@ static int tmc_psu_probe(struct platform_device *pdev)
 	return 0;
 }
 
-static int tmc_psu_remove(struct platform_device *pdev)
+static void tmc_psu_remove(struct platform_device *pdev)
 {
 	struct tmc_psu_data *psu = platform_get_drvdata(pdev);
 
@@ -137,8 +137,6 @@ static int tmc_psu_remove(struct platform_device *pdev)
 		devm_kfree(&pdev->dev, psu);
 	}
 	sysfs_remove_group(&pdev->dev.kobj, &tmc_psu_attr_group);
-
-	return 0;
 }
 
 static struct platform_driver jnx_tmc_psu_driver = {
