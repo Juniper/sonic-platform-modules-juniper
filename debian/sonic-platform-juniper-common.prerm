@@ -1,0 +1,20 @@
+#!/bin/bash
+# Pre-removal script for sonic-platform-juniper-common
+
+# ── Disable systemd services ──────────────────────────────────────
+# Mask first to prevent Restart=always from restarting the service
+# between our stop and dpkg removing the unit file.
+for svc in psuStatusd.service container-shutdown-watcher.service resil_monitord.service; do
+    systemctl mask "$svc" 2>/dev/null || true
+    if systemctl is-active --quiet "$svc" 2>/dev/null; then
+        systemctl stop "$svc" 2>/dev/null || true
+    fi
+done
+
+# Unmask and reload so a fresh install is not blocked by stale masks
+for svc in psuStatusd.service container-shutdown-watcher.service resil_monitord.service; do
+    systemctl unmask "$svc" 2>/dev/null || true
+done
+systemctl daemon-reload 2>/dev/null || true
+
+exit 0

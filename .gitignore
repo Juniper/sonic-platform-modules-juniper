@@ -1,0 +1,69 @@
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+*.o.d
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+# Debian packaging
+*.debhelper.log
+*.postinst.debhelper
+*.postrm.debhelper
+*.prerm.debhelper
+*.substvars
+
+# Python and test artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+test-results.xml
+htmlcov/
+
+# Build outputs
+build/
+dist/
+*.whl
+*.deb
+common/utils/pcimem
+qfx5241/utils/pcimem

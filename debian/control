@@ -1,0 +1,20 @@
+Source: sonic-juniper-platform-modules
+Section: main
+Priority: extra
+Maintainer: Juniper Networks <crajank@juniper.net>
+Build-Depends: debhelper (>= 9), bzip2
+Standards-Version: 3.9.3
+
+Package: sonic-platform-juniper-common
+Architecture: amd64
+Description: shared Juniper Broadcom platform Python, daemons, and services
+ Shared sonic_platform Python packages, common Juniper utilities,
+ platform daemons, and shared service wiring for QFX5241.
+
+Package: sonic-platform-juniper-qfx5241
+Architecture: amd64
+Depends: sonic-platform-juniper-common
+Replaces: sonic-device-data
+Description: Juniper QFX5241 platform-specific kernel modules and init service
+
+
