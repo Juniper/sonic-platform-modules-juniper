@@ -76,12 +76,6 @@ if [ -f $FIRST_BOOT_FILE ]; then
         # Creating the UEFI entry for the first time.
         efibootmgr -c -L "SONiC" -l "\EFI\BOOT\BOOTX64.EFI" > /var/tmp/efi_log 2>&1
     fi
-    mkdir /usr/bin/qfx5241-64od-warm-reboot
-    mkdir /usr/bin/qfx5241-64od-fast-reboot
-    cp /usr/bin/warm-reboot /usr/bin/qfx5241-64od-warm-reboot
-    cp /usr/bin/fast-reboot /usr/bin/qfx5241-64od-fast-reboot
-    cp /usr/local/bin/wrapper-warm-reboot /usr/bin/warm-reboot
-    cp /usr/local/bin/wrapper-fast-reboot /usr/bin/fast-reboot
     cp /usr/share/sonic/device/x86_64-juniper_common/bin/* /usr/bin/
     cp /usr/share/sonic/device/x86_64-juniper_qfx5241-r0/bin/* /usr/bin/
 fi

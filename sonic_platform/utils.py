@@ -318,28 +318,29 @@ def get_i2c_bus_numbers_for_muxes(pci_dev_path=None, mux_name_pattern=None):
 # SKU symlink helper
 # ---------------------------------------------------------------------------
 
-def setup_sku_symlinks(platform=None, hwsku=None):
-    """Create platform.json / default_sku / media_settings.json symlinks for a SKU."""
+def setup_sku_symlinks(platform=None, hwsku=None, base_dir="/usr/share/sonic/device"):
+    """Point platform.json / default_sku / media_settings.json at a SKU folder.
+
+    Returns True when all three links were made, otherwise None.
+    """
     if not platform or not hwsku:
         return None
-    base_dir = Path("/usr/share/sonic/device")
-    platform_dir = base_dir / platform
+    platform_dir = Path(base_dir) / platform
     sku_dir = platform_dir / hwsku
     if (not sku_dir.is_dir()
             or not (sku_dir / "platform.json").is_file()
             or not (sku_dir / "hwsku_name").is_file()
             or not (sku_dir / "media_settings.json").is_file()):
         return None
-    target_json = platform_dir / "platform.json"
-    target_default = platform_dir / "default_sku"
-    target_media_settings = platform_dir / "media_settings.json"
-    for t in (target_json, target_default, target_media_settings):
-        if t.exists() or t.is_symlink():
-            t.unlink(missing_ok=True)
+    links = (("platform.json", "platform.json"),
+             ("default_sku", "hwsku_name"),
+             ("media_settings.json", "media_settings.json"))
     try:
-        target_json.symlink_to(sku_dir / "platform.json")
-        target_default.symlink_to(sku_dir / "hwsku_name")
-        target_media_settings.symlink_to(sku_dir / "media_settings.json")
+        for name, source in links:
+            target = platform_dir / name
+            target.unlink(missing_ok=True)
+            target.symlink_to(Path(hwsku) / source)
     except OSError as e:
         log_error(f"Error creating symlinks: {e}", SYSLOG_IDENTIFIER)
         return None
+    return True
